@@ -1,44 +1,57 @@
-{%- if include.theme == 'dark' -%}
-  <header class="header header--dark" {%- if include.background -%} style="background: {{ include.background }};" {%- endif -%}>
-{%- elsif include.theme == 'light' -%}
-  <header class="header header--light" {%- if include.background -%} style="background: {{ include.background }};" {%- endif -%}>
-{%- else -%}
-  <header class="header" {%- if include.background -%} style="background: {{ include.background }};" {%- endif -%}>
-{%- endif -%}
-    <div class="main">
-      <div class="header__title">
-        <div class="header__brand">
-          {%- include svg/logo.svg -%}
-          {%- assign _paths_root = site.paths.root | default: site.data.variables.default.paths.root  -%}
-          {%- include snippets/get-nav-url.html path=_paths_root -%}
-          {%- if site.title -%}
-            <a title="{%- if site.description -%}{{ site.description }}{%- endif -%}" href="{{ __return }}">{{ site.title }}</a>
-          {%- endif -%}
-        </div>
-        {%- if site.search.provider -%}
-          <button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button>
-        {%- endif -%}
+<!doctype html>
+<head>
+
+  <!-- Meta -->
+  <meta charset="utf-8">
+
+  <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% elsif post.title %}{{ post.title }} - {{ site.title }}{% else %}{{ site.title }} - {{ site.description }}{% endif %}</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/feed.xml">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title }} - {{ site.description }}" href="{{ site.url }}/atom.xml">
+
+  <!-- Favicons -->
+  <link rel="icon" href="{{ site.url }}/img/favicon.png">
+
+  <!-- Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700|Merriweather:400,300,300italic,400italic,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ "/css/animate.min.css" | prepend: site.baseurl }}">
+  <link rel="stylesheet" href="{{ "/css/style.css" | prepend: site.baseurl }}">
+
+</head>
+<body class="{{ post.title | downcase | replace:' ','-' | replace:',','' | strip_html }}{% if page.category %} category-{{ page.category }}{% endif %}{% if page.layout-class %} layout-{{ page.layout-class }}{% endif %}">
+
+<div class="main container" id="top">
+
+  {% if site.enable_nav == true %}
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">{{ site.admin_name }}</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+              {% for item in site.nav_item %}
+                <li>
+                  <a href="{{ item.url }}">{{ item.text }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
       </div>
-      {%- if site.data.navigation.header -%}
-      <nav class="navigation">
-        <ul>
-          {%- for _item in site.data.navigation.header -%}
-            {%- include snippets/get-nav-url.html path=_item.url -%}
-            {%- assign _nav_url = __return -%}
-            {%- include snippets/get-nav-url.html path=page.url -%}
-            {%- assign _page_url = __return -%}
-            {%- include snippets/get-string-from-locale-config.html locale=_item.titles -%}
-            {%- if _nav_url == _page_url or page.nav_key and _item.key and page.nav_key == _item.key -%}
-              <li class="navigation__item navigation__item--active"><a href="{{ _nav_url }}">{%- if _item.title -%}{{ _item.title }}{%- else -%}{{ __return }}{%- endif -%}</a></li>
-            {%- else -%}
-              <li class="navigation__item"><a href="{{ _nav_url }}">{%- if _item.title -%}{{ _item.title }}{%- else -%}{{ __return }}{%- endif -%}</a></li>
-            {%- endif -%}
-          {%- endfor -%}
-          {%- if site.search.provider -%}
-            <li><button class="button button--secondary button--circle search-button js-search-toggle"><i class="fas fa-search"></i></button></li>
-          {%- endif -%}
-        </ul>
-      </nav>
-      {%- endif -%}
-    </div>
-  </header>
+  </nav>
+  {% endif %}
