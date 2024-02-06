@@ -18,10 +18,11 @@ email: 'karl@karlma.ca'
 description: "I'm a remorseful hooper from Toronto who enjoys lamenting softly"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://m-karl.github.io" # the base hostname & protocol for your site, e.g. https://example.com
-twitter_username: '>'
+twitter_username: ''
 github_username: 'm-karl'
 medium_username: ''
 linkedin_username: 'karl-ma'
+facebook_username: ''
 
 # Build settings
 markdown: kramdown
